@@ -1,0 +1,198 @@
+name: marco-config-sync
+
+# 每 6 小时自动把 ziyuanzhan 的监测数据转成 Marco Movie 配置
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:          # 也可以手动点 Run workflow
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 生成 Marco 配置
+        run: |
+          python3 - <<'PY'
+          #!/usr/bin/env python3
+          # -*- coding: utf-8 -*-
+          """
+          把 mylazily/ziyuanzhan 的监测数据（online.json）转成 Marco Movie / TVBox 可导入的配置。
+
+          做三件事：
+            1. 拉监测数据（jsDelivr → raw.githubusercontent 依次回退，国内都能通）
+            2. 对每个 api 真正发请求：ac=list 必须返回 code=1 且 list 是数组，ac=detail 必须带播放地址
+            3. 过滤成人站（按 ziyuanzu 标签 + 站点名黑名单 + 分类黑名单三重判断），输出 Marco 格式 JSON
+
+          用法： python3 convert.py [输出路径，默认 docs/marco.json]
+          """
+          import json
+          import os
+          import re
+          import sys
+          import urllib.request
+          import concurrent.futures as cf
+          import time
+
+          SOURCES = [
+              "https://cdn.jsdelivr.net/gh/mylazily/ziyuanzhan@main/docs/data/online.json",
+              "https://raw.githubusercontent.com/mylazily/ziyuanzhan/main/docs/data/online.json",
+          ]
+          UA = {"User-Agent": "okhttp/3.15"}
+
+          ADULT_NAME = re.compile(
+              r"av|麻豆|湿乐园|杏吧|番号|黄色|老色|奶香|白嫖|美少女|X水机|香X儿|精品X|大X子|玉兔|"
+              r"情色|色猫|黑料|小鸡|鲨鱼|森林|百花|滴滴|辣椒|155|越南|奥斯卡|乐播|豆豆|搜|JKUN|桃花|湿",
+              re.I,
+          )
+          ADULT_TYPE = re.compile(
+              r"自拍|偷拍|无码|有码|人妻|熟女|乱伦|伦理|情色|三级|激情|抖阴|母狗|吃瓜|cosplay|私拍|"
+              r"丝袜|巨乳|童颜|反差|网红|主播|探花|门事件|约炮|少妇|女同|网爆|国产视频|国产专区|"
+              r"视频一区|视频二区|重口|人妖|另类|变态",
+              re.I,
+          )
+          SHORT_DRAMA = re.compile(r"短剧|现代都市|AI短剧|都市", re.I)
+
+
+          def fetch_json(url, timeout=20):
+              req = urllib.request.Request(url, headers={"User-Agent": "marco-sync/1.0"})
+              with urllib.request.urlopen(req, timeout=timeout) as r:
+                  return json.loads(r.read().decode("utf-8", "ignore"))
+
+
+          def load_sites():
+              last = None
+              for u in SOURCES:
+                  try:
+                      d = fetch_json(u)
+                      sites = d.get("data", d) if isinstance(d, dict) else d
+                      print("[INFO] 数据源 %s → %d 站" % (u.split("/")[2], len(sites)))
+                      return sites
+                  except Exception as e:
+                      last = e
+                      print("[WARN] %s 失败：%s" % (u, e))
+              raise SystemExit("数据源全部不可用：%s" % last)
+
+
+          def api_url(api):
+              api = api.strip()
+              if not api.endswith("/"):
+                  api += "/"
+              return api
+
+
+          def probe(site):
+              api = api_url(site.get("api") or "")
+              if not site.get("api"):
+                  return None
+              try:
+                  j = json.loads(urllib.request.urlopen(
+                      urllib.request.Request(api + "?ac=list", headers=UA), timeout=15
+                  ).read().decode("utf-8", "ignore"))
+                  if str(j.get("code")) != "1" or not isinstance(j.get("list"), list) or not j["list"]:
+                      return None
+                  tn = [str(x.get("type_name", "")) for x in j["list"][:15]]
+                  types = " ".join(tn)
+                  vid = j["list"][0]["vod_id"]
+                  t0 = time.time()
+                  dj = json.loads(urllib.request.urlopen(
+                      urllib.request.Request(api + "?ac=detail&ids=%s" % vid, headers=UA), timeout=15
+                  ).read().decode("utf-8", "ignore"))
+                  ms = int((time.time() - t0) * 1000)
+                  if "http" not in (dj["list"][0].get("vod_play_url") or ""):
+                      return None
+                  score = len({m.group(0).lower() for m in ADULT_TYPE.finditer(types)})
+                  if score >= 2:                      # 命中 2 个以上成人分类才判为成人站，避免误杀
+                      print("[SKIP-成人] %s（命中 %d 个分类）" % (site.get("name"), score))
+                      return None
+                  return {
+                      "name": site.get("name", "").strip(),
+                      "api": api,
+                      "ms": ms,
+                      "total": j.get("total") or len(j["list"]),
+                      "types": types,
+                  }
+              except Exception:
+                  return None
+
+
+          def build():
+              sites = load_sites()
+              cand = []
+              for s in sites:
+                  if ADULT_NAME.search(s.get("name", "")) or "成人" in "".join(s.get("tags") or []):
+                      continue
+                  cand.append(s)
+              print("[INFO] 名称/标签初筛后 %d 站，开始实测接口…" % len(cand))
+
+              def probe_retry(site):
+                  for _ in range(2):          # 抖动重试一次
+                      r = probe(site)
+                      if r:
+                          return r
+                  return None
+
+              ok = []
+              with cf.ThreadPoolExecutor(max_workers=16) as ex:
+                  for r in ex.map(probe_retry, cand):
+                      if r:
+                          ok.append(r)
+              ok.sort(key=lambda x: x["ms"])
+              print("[INFO] 实测可用 %d 站" % len(ok))
+
+              out = []
+              for i, s in enumerate(ok):
+                  name = s["name"]
+                  for suf in ("影院资源站", "资源站", "采集站", "资源"):
+                      name = name.replace(suf, "")
+                  tn_types = s["types"].split() if s.get("types") else []
+                  drama = sum(1 for t in tn_types if SHORT_DRAMA.search(t))
+                  if tn_types and drama >= max(3, len(tn_types) * 0.6) and "短剧" not in name:
+                      name += "短剧"
+                  out.append({
+                      "key": "s%02d" % (i + 1),
+                      "name": name,
+                      "type": 1,
+                      "api": s["api"],
+                      "searchable": 1,
+                      "header": {"User-Agent": "okhttp/3.15"},
+                  })
+              cfg = {"spider": "", "sites": out}
+              return cfg
+
+
+          def main():
+              cfg = build()
+              path = sys.argv[1] if len(sys.argv) > 1 else "docs/marco.json"
+              os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+              raw = json.dumps(cfg, ensure_ascii=False, indent=2)
+              with open(path, "w", encoding="utf-8") as f:
+                  f.write(raw)
+              print("[OK] 写入 %s（%d 站，%d 字节）" % (path, len(cfg["sites"]), len(raw.encode())))
+              for s in cfg["sites"]:
+                  print("  %-10s %s" % (s["name"], s["api"]))
+
+
+          sys.argv = ['convert.py', 'docs/marco.json']
+          main()
+          PY
+
+      - name: 提交变化
+        run: |
+          git config user.name  "marco-sync-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add docs/marco.json
+          if git diff --staged --quiet; then
+            echo "配置无变化，跳过提交"
+          else
+            git commit -m "chore: 同步片源配置 $(date -u '+%Y-%m-%d %H:%M UTC')"
+            git push
+          fi
