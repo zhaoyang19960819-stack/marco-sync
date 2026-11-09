@@ -3,9 +3,9 @@
   "sites": [
     {
       "key": "s01",
-      "name": "无尽",
+      "name": "金鹰",
       "type": 1,
-      "api": "https://api.wujinapi.me/api.php/provide/vod/",
+      "api": "https://jyzyapi.com/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -23,6 +23,16 @@
     },
     {
       "key": "s03",
+      "name": "光速",
+      "type": 1,
+      "api": "https://api.guangsuapi.com/api.php/provide/vod/",
+      "searchable": 1,
+      "header": {
+        "User-Agent": "okhttp/3.15"
+      }
+    },
+    {
+      "key": "s04",
       "name": "百度云",
       "type": 1,
       "api": "https://api.apibdzy.com/api.php/provide/vod/",
@@ -32,20 +42,10 @@
       }
     },
     {
-      "key": "s04",
-      "name": "鸭鸭短剧",
-      "type": 1,
-      "api": "https://cj.yayazy.net/api.php/provide/vod/",
-      "searchable": 1,
-      "header": {
-        "User-Agent": "okhttp/3.15"
-      }
-    },
-    {
       "key": "s05",
-      "name": "牛牛短剧",
+      "name": "最大",
       "type": 1,
-      "api": "https://api.niuniuzy.me/api.php/provide/vod/",
+      "api": "http://zuidazy.me/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -53,9 +53,9 @@
     },
     {
       "key": "s06",
-      "name": "最大短剧",
+      "name": "无尽",
       "type": 1,
-      "api": "http://zuidazy.me/api.php/provide/vod/",
+      "api": "https://api.wujinapi.me/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -73,9 +73,9 @@
     },
     {
       "key": "s08",
-      "name": "金鹰",
+      "name": "牛牛",
       "type": 1,
-      "api": "https://jyzyapi.com/provide/vod/",
+      "api": "https://api.niuniuzy.me/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -83,9 +83,9 @@
     },
     {
       "key": "s09",
-      "name": "光速",
+      "name": "索尼",
       "type": 1,
-      "api": "https://api.guangsuapi.com/api.php/provide/vod/",
+      "api": "https://suonizy.net/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -93,9 +93,9 @@
     },
     {
       "key": "s10",
-      "name": "非凡",
+      "name": "虎牙",
       "type": 1,
-      "api": "https://ffzy5.tv/api.php/provide/vod/",
+      "api": "https://huyazy.net/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -113,9 +113,9 @@
     },
     {
       "key": "s12",
-      "name": "索尼",
+      "name": "鸭鸭",
       "type": 1,
-      "api": "https://suonizy.net/api.php/provide/vod/",
+      "api": "https://cj.yayazy.net/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -133,9 +133,9 @@
     },
     {
       "key": "s14",
-      "name": "豪华",
+      "name": "非凡",
       "type": 1,
-      "api": "https://haohuazy.com/api.php/provide/vod/",
+      "api": "https://ffzy5.tv/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -143,26 +143,6 @@
     },
     {
       "key": "s15",
-      "name": "虎牙",
-      "type": 1,
-      "api": "https://huyazy.net/api.php/provide/vod/",
-      "searchable": 1,
-      "header": {
-        "User-Agent": "okhttp/3.15"
-      }
-    },
-    {
-      "key": "s16",
-      "name": "魔都",
-      "type": 1,
-      "api": "https://www.mdzyapi.com/api.php/provide/vod/",
-      "searchable": 1,
-      "header": {
-        "User-Agent": "okhttp/3.15"
-      }
-    },
-    {
-      "key": "s17",
       "name": "暴风",
       "type": 1,
       "api": "https://bfzyapi.com/api.php/provide/vod/",
@@ -172,17 +152,7 @@
       }
     },
     {
-      "key": "s18",
-      "name": "番茄",
-      "type": 1,
-      "api": "https://fqzy.me/api.php/provide/vod/",
-      "searchable": 1,
-      "header": {
-        "User-Agent": "okhttp/3.15"
-      }
-    },
-    {
-      "key": "s19",
+      "key": "s16",
       "name": "猫眼",
       "type": 1,
       "api": "https://api.maoyanapi.top/api.php/provide/vod/",
@@ -192,17 +162,17 @@
       }
     },
     {
-      "key": "s20",
-      "name": "速播",
+      "key": "s17",
+      "name": "魔都",
       "type": 1,
-      "api": "https://subocj.com/api.php/provide/vod/",
+      "api": "https://www.mdzyapi.com/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
       }
     },
     {
-      "key": "s21",
+      "key": "s18",
       "name": "艾旦",
       "type": 1,
       "api": "https://lovedan.net/api.php/provide/vod/",
@@ -212,8 +182,38 @@
       }
     },
     {
+      "key": "s19",
+      "name": "速播",
+      "type": 1,
+      "api": "https://subocj.com/api.php/provide/vod/",
+      "searchable": 1,
+      "header": {
+        "User-Agent": "okhttp/3.15"
+      }
+    },
+    {
+      "key": "s20",
+      "name": "豪华",
+      "type": 1,
+      "api": "https://haohuazy.com/api.php/provide/vod/",
+      "searchable": 1,
+      "header": {
+        "User-Agent": "okhttp/3.15"
+      }
+    },
+    {
+      "key": "s21",
+      "name": "番茄",
+      "type": 1,
+      "api": "https://fqzy.me/api.php/provide/vod/",
+      "searchable": 1,
+      "header": {
+        "User-Agent": "okhttp/3.15"
+      }
+    },
+    {
       "key": "s22",
-      "name": "360短剧",
+      "name": "360",
       "type": 1,
       "api": "https://360zy.com/api.php/provide/vod/",
       "searchable": 1,
