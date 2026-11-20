@@ -3,9 +3,9 @@
   "sites": [
     {
       "key": "s01",
-      "name": "极速",
+      "name": "光速",
       "type": 1,
-      "api": "https://jszyapi.com/api.php/provide/vod/",
+      "api": "https://api.guangsuapi.com/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -23,36 +23,6 @@
     },
     {
       "key": "s03",
-      "name": "光速",
-      "type": 1,
-      "api": "https://api.guangsuapi.com/api.php/provide/vod/",
-      "searchable": 1,
-      "header": {
-        "User-Agent": "okhttp/3.15"
-      }
-    },
-    {
-      "key": "s04",
-      "name": "最大",
-      "type": 1,
-      "api": "http://zuidazy.me/api.php/provide/vod/",
-      "searchable": 1,
-      "header": {
-        "User-Agent": "okhttp/3.15"
-      }
-    },
-    {
-      "key": "s05",
-      "name": "鸭鸭",
-      "type": 1,
-      "api": "https://cj.yayazy.net/api.php/provide/vod/",
-      "searchable": 1,
-      "header": {
-        "User-Agent": "okhttp/3.15"
-      }
-    },
-    {
-      "key": "s06",
       "name": "爱坤",
       "type": 1,
       "api": "https://ikunzyapi.com/api.php/provide/vod/",
@@ -62,7 +32,27 @@
       }
     },
     {
-      "key": "s07",
+      "key": "s04",
+      "name": "红牛",
+      "type": 1,
+      "api": "http://hongniuzy2.com/api.php/provide/vod/",
+      "searchable": 1,
+      "header": {
+        "User-Agent": "okhttp/3.15"
+      }
+    },
+    {
+      "key": "s05",
+      "name": "非凡",
+      "type": 1,
+      "api": "https://ffzy5.tv/api.php/provide/vod/",
+      "searchable": 1,
+      "header": {
+        "User-Agent": "okhttp/3.15"
+      }
+    },
+    {
+      "key": "s06",
       "name": "百度云",
       "type": 1,
       "api": "https://api.apibdzy.com/api.php/provide/vod/",
@@ -72,10 +62,20 @@
       }
     },
     {
-      "key": "s08",
-      "name": "金鹰",
+      "key": "s07",
+      "name": "天涯影视",
       "type": 1,
-      "api": "https://jyzyapi.com/provide/vod/",
+      "api": "https://tyyszyapi.com/api.php/provide/vod/",
+      "searchable": 1,
+      "header": {
+        "User-Agent": "okhttp/3.15"
+      }
+    },
+    {
+      "key": "s08",
+      "name": "虎牙",
+      "type": 1,
+      "api": "https://huyazy.net/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -83,9 +83,9 @@
     },
     {
       "key": "s09",
-      "name": "红牛",
+      "name": "鸭鸭",
       "type": 1,
-      "api": "http://hongniuzy2.com/api.php/provide/vod/",
+      "api": "https://cj.yayazy.net/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -103,9 +103,9 @@
     },
     {
       "key": "s11",
-      "name": "虎牙",
+      "name": "最大",
       "type": 1,
-      "api": "https://huyazy.net/api.php/provide/vod/",
+      "api": "http://zuidazy.me/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -123,9 +123,9 @@
     },
     {
       "key": "s13",
-      "name": "天涯影视",
+      "name": "极速",
       "type": 1,
-      "api": "https://tyyszyapi.com/api.php/provide/vod/",
+      "api": "https://jszyapi.com/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -133,9 +133,9 @@
     },
     {
       "key": "s14",
-      "name": "暴风",
+      "name": "金鹰",
       "type": 1,
-      "api": "https://bfzyapi.com/api.php/provide/vod/",
+      "api": "https://jyzyapi.com/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -143,26 +143,6 @@
     },
     {
       "key": "s15",
-      "name": "猫眼",
-      "type": 1,
-      "api": "https://api.maoyanapi.top/api.php/provide/vod/",
-      "searchable": 1,
-      "header": {
-        "User-Agent": "okhttp/3.15"
-      }
-    },
-    {
-      "key": "s16",
-      "name": "番茄",
-      "type": 1,
-      "api": "https://fqzy.me/api.php/provide/vod/",
-      "searchable": 1,
-      "header": {
-        "User-Agent": "okhttp/3.15"
-      }
-    },
-    {
-      "key": "s17",
       "name": "魔都",
       "type": 1,
       "api": "https://www.mdzyapi.com/api.php/provide/vod/",
@@ -172,10 +152,30 @@
       }
     },
     {
-      "key": "s18",
-      "name": "速播",
+      "key": "s16",
+      "name": "暴风",
       "type": 1,
-      "api": "https://subocj.com/api.php/provide/vod/",
+      "api": "https://bfzyapi.com/api.php/provide/vod/",
+      "searchable": 1,
+      "header": {
+        "User-Agent": "okhttp/3.15"
+      }
+    },
+    {
+      "key": "s17",
+      "name": "艾旦",
+      "type": 1,
+      "api": "https://lovedan.net/api.php/provide/vod/",
+      "searchable": 1,
+      "header": {
+        "User-Agent": "okhttp/3.15"
+      }
+    },
+    {
+      "key": "s18",
+      "name": "猫眼",
+      "type": 1,
+      "api": "https://api.maoyanapi.top/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -183,9 +183,9 @@
     },
     {
       "key": "s19",
-      "name": "非凡",
+      "name": "豪华",
       "type": 1,
-      "api": "https://ffzy5.tv/api.php/provide/vod/",
+      "api": "https://haohuazy.com/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -193,9 +193,9 @@
     },
     {
       "key": "s20",
-      "name": "豪华",
+      "name": "速播",
       "type": 1,
-      "api": "https://haohuazy.com/api.php/provide/vod/",
+      "api": "https://subocj.com/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -213,9 +213,9 @@
     },
     {
       "key": "s22",
-      "name": "茅台",
+      "name": "番茄",
       "type": 1,
-      "api": "https://mtzy5.com/api.php/provide/vod/",
+      "api": "https://fqzy.me/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
@@ -223,9 +223,9 @@
     },
     {
       "key": "s23",
-      "name": "艾旦",
+      "name": "茅台",
       "type": 1,
-      "api": "https://lovedan.net/api.php/provide/vod/",
+      "api": "https://mtzy5.com/api.php/provide/vod/",
       "searchable": 1,
       "header": {
         "User-Agent": "okhttp/3.15"
